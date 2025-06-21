@@ -7,9 +7,9 @@ import java.util.Properties;
 
 public class DatabaseConnection {
     // Database connection parameters
-    private static final String URL = "jdbc:mysql://localhost:3306/sakila";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "rootpss04";
+    private static final String URL = "jdbc:mysql://localhost:3306/oop_sc";
+    private static final String USERNAME = "";
+    private static final String PASSWORD = "";
     private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
     
     // Static initialization block to load the JDBC driver
