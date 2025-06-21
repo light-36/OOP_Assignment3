@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +54,6 @@
         <div class="nav-links">
             <h2>Application Features</h2>
             <a href="<c:url value='/home'/>" class="btn">Refresh Page</a>
-            <a href="<c:url value='/database'/>" class="btn">Database Demo</a>
             <a href="<c:url value='/logs'/>" class="btn">Log Management</a>
         </div>
     </div>

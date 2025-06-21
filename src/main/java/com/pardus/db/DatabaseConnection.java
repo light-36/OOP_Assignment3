@@ -5,9 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * Utility class for managing database connections
- */
 public class DatabaseConnection {
     // Database connection parameters
     private static final String URL = "jdbc:mysql://localhost:3306/sakila";
@@ -24,13 +21,7 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
-    
-    /**
-     * Get a connection to the database
-     * 
-     * @return Connection object
-     * @throws SQLException if a database access error occurs
-     */
+
     public static Connection getConnection() throws SQLException {
         try {
             Properties props = new Properties();

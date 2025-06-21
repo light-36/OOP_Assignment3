@@ -2,9 +2,6 @@ package com.pardus.model;
 
 import java.sql.Timestamp;
 
-/**
- * Model class representing entries in the log table
- */
 public class Log {
     private int logId;
     private String logTitle;

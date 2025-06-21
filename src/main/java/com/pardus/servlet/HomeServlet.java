@@ -1,10 +1,10 @@
 package com.pardus.servlet;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -17,8 +17,8 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         // Set some attributes that can be used in the JSP
-        request.setAttribute("pageTitle", "Java Web Application");
-        request.setAttribute("welcomeMessage", "Welcome to our Java Web Application!");
+        request.setAttribute("pageTitle", "Log Web Application");
+        request.setAttribute("welcomeMessage", "Welcome to my Log Web Application!");
         
         // Forward the request to the JSP page
         request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);

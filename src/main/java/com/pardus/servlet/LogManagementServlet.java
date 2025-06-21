@@ -3,11 +3,11 @@ package com.pardus.servlet;
 import com.pardus.dao.LogDAO;
 import com.pardus.model.Log;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class LogManagementServlet extends HttpServlet {
         } else if (pathInfo.equals("/create")) {
             // Show create log form
             request.getRequestDispatcher("/WEB-INF/views/log_form.jsp").forward(request, response);
-        } else if (pathInfo.equals("/edit/")) {
+        } else if (pathInfo.startsWith("/edit/")) {
             // Show edit log form
             handleEditForm(request, response);
         } else {
@@ -64,6 +64,9 @@ public class LogManagementServlet extends HttpServlet {
         } else if (pathInfo.startsWith("/delete/")) {
             // Delete a log
             handleDeleteLog(request, response);
+        } else if (pathInfo.equals("/save")) {
+            // Alternative endpoint for saving (both create and update)
+            handleSaveLog(request, response);
         } else {
             // Invalid path
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -76,29 +79,7 @@ public class LogManagementServlet extends HttpServlet {
     private void handleListLogs(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Get filter parameters
-        String severityFilter = request.getParameter("severity");
-        String statusFilter = request.getParameter("status");
-        String searchTerm = request.getParameter("search");
-
-        List<Log> logs;
-
-        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            // Search logs by term
-            logs = logDAO.searchLogs(searchTerm);
-            request.setAttribute("searchTerm", searchTerm);
-        } else if (severityFilter != null && !severityFilter.isEmpty()) {
-            // Filter logs by severity
-            logs = logDAO.getLogsBySeverity(severityFilter);
-            request.setAttribute("severityFilter", severityFilter);
-        } else if (statusFilter != null && !statusFilter.isEmpty()) {
-            // Filter logs by status
-            logs = logDAO.getLogsByStatus(statusFilter);
-            request.setAttribute("statusFilter", statusFilter);
-        } else {
-            // Get all logs
-            logs = logDAO.getAllLogs();
-        }
+        List<Log> logs = logDAO.getAllLogs();
 
         request.setAttribute("logs", logs);
         request.getRequestDispatcher("/WEB-INF/views/log_list.jsp").forward(request, response);
@@ -245,6 +226,66 @@ public class LogManagementServlet extends HttpServlet {
             }
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid log ID");
+        }
+    }
+    
+    /**
+     * Handle saving a log (both create and update)
+     */
+    private void handleSaveLog(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        // Check if this is an update (has ID) or create (no ID)
+        String logIdStr = request.getParameter("id");
+        
+        if (logIdStr != null && !logIdStr.trim().isEmpty()) {
+            // This is an update
+            try {
+                int logId = Integer.parseInt(logIdStr);
+                
+                // Get form parameters
+                String logTitle = request.getParameter("logTitle");
+                String logContent = request.getParameter("logContent");
+                String logSeverity = request.getParameter("logSeverity");
+                String status = request.getParameter("status");
+                
+                // Validate required fields
+                if (logTitle == null || logTitle.trim().isEmpty() ||
+                    logContent == null || logContent.trim().isEmpty()) {
+                    
+                    request.setAttribute("errorMessage", "Title and content are required");
+                    request.setAttribute("isEdit", true);
+                    request.getRequestDispatcher("/WEB-INF/views/log_form.jsp").forward(request, response);
+                    return;
+                }
+                
+                // Create log object
+                Log log = new Log();
+                log.setLogId(logId);
+                log.setLogTitle(logTitle);
+                log.setLogContent(logContent);
+                log.setLogSeverity(logSeverity);
+                log.setStatus(status);
+                
+                // Update in database
+                boolean success = logDAO.updateLog(log);
+                
+                if (success) {
+                    // Redirect to view the updated log
+                    response.sendRedirect(request.getContextPath() + "/logs/view/" + logId);
+                } else {
+                    // Show error
+                    request.setAttribute("errorMessage", "Failed to update log entry");
+                    request.setAttribute("isEdit", true);
+                    request.setAttribute("log", log);
+                    request.getRequestDispatcher("/WEB-INF/views/log_form.jsp").forward(request, response);
+                }
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid log ID");
+            }
+        } else {
+            // This is a create
+            handleCreateLog(request, response);
         }
     }
 
