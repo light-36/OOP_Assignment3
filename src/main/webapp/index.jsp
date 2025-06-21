@@ -42,7 +42,7 @@
 <body>
     <div class="container">
         <h1>Welcome to Java Web Application</h1>
-        <p>This is the landing page of our web application.</p>
+        <p>This is the landing page of my web application.</p>
         <p>Current time: <%= new java.util.Date() %></p>
         
         <a href="<c:url value='/home'/>" class="btn">Go to Home Page</a>

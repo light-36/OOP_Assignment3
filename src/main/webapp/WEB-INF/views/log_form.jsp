@@ -103,19 +103,19 @@
                 <input type="hidden" name="id" value="${log.logId}" />
             </c:if>
 
-                //Log title input
+            <%-- Log title input --%>
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="logTitle" value="${log.logTitle}" required />
             </div>
 
-                //Log Message input
+            <%--Log Message input--%>
             <div class="form-group">
                 <label for="message">Message:</label>
                 <textarea id="message" name="logContent" required>${log.logContent}</textarea>
             </div>
 
-                //Severity selection
+            <%--Severity selection--%>
             <div class="form-group">
                 <label for="severity">Severity:</label>
                 <select id="severity" name="logSeverity" required>
@@ -125,7 +125,7 @@
                 </select>
             </div>
 
-                //Status selection
+            <%--Status selection--%>
             <div class="form-group">
                 <label for="status">Status:</label>
                 <select id="status" name="status" required>
@@ -134,7 +134,7 @@
                 </select>
             </div>
 
-                //Add buttons for saving or canceling the form
+            <%--Add buttons for saving or canceling the form--%>
             <div class="button-group">
                 <button type="submit">Save</button>
                 <button type="button" class="cancel-button" onclick="window.location.href='<c:url value='/logs' />'">Cancel</button>

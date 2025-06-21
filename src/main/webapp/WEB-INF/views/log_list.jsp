@@ -180,32 +180,6 @@
             <a href="<c:url value='/logs/create'/>" class="btn btn-primary">Create New Log</a>
         </div>
 
-        <!-- Filters -->
-        <div class="filters">
-            <form action="<c:url value='/logs'/>" method="get">
-                <label for="severity">Filter by Severity:</label>
-                <select name="severity" id="severity">
-                    <option value="">All</option>
-                    <option value="INFO" ${severityFilter eq 'INFO' ? 'selected' : ''}>INFO</option>
-                    <option value="WARNING" ${severityFilter eq 'WARNING' ? 'selected' : ''}>WARNING</option>
-                    <option value="ERROR" ${severityFilter eq 'ERROR' ? 'selected' : ''}>ERROR</option>
-                </select>
-
-                <label for="status">Filter by Status:</label>
-                <select name="status" id="status">
-                    <option value="">All</option>
-                    <option value="ACTIVE" ${statusFilter eq 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
-                    <option value="INACTIVE" ${statusFilter eq 'INACTIVE' ? 'selected' : ''}>INACTIVE</option>
-                </select>
-
-                <label for="search">Search:</label>
-                <input type="text" name="search" id="search" value="${searchTerm}" placeholder="Search logs...">
-
-                <button type="submit">Apply Filters</button>
-                <a href="<c:url value='/logs'/>" class="btn">Clear Filters</a>
-            </form>
-        </div>
-
         <!-- Log entries table -->
         <c:choose>
             <c:when test="${not empty logs}">
